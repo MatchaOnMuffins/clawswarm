@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Agent {
+  id           String   @id @default(uuid())
+  name         String   @unique
+  description  String?
+  apiKey       String   @unique @map("api_key")
+  createdAt    DateTime @default(now()) @map("created_at")
+  lastActiveAt DateTime @default(now()) @map("last_active_at")
+
+  solutions Solution[]
+  tasks     Task[]
+
+  @@map("agents")
+}
+
+model Problem {
+  id        String   @id @default(uuid())
+  title     String
+  statement String
+  hints     String[]
+  phase     String   @default("collecting") // collecting, aggregating, finalized
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  solutions Solution[]
+  tasks     Task[]
+
+  @@map("problems")
+}
+
+model Solution {
+  id               String    @id @default(uuid())
+  agentId          String    @map("agent_id")
+  problemId        String    @map("problem_id")
+  level            Int       @default(1) // L1, L2, L3...
+  content          String // The reasoning/solution text
+  answer           String? // The final answer
+  confidence       Float? // 0-1 confidence score
+  parentIds        String[]  @map("parent_ids") // IDs of solutions this aggregates
+  isFinal          Boolean   @default(false) @map("is_final")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  aggregatedIntoId String?   @map("aggregated_into_id")
+  aggregatedAt     DateTime? @map("aggregated_at")
+
+  agent   Agent   @relation(fields: [agentId], references: [id])
+  problem Problem @relation(fields: [problemId], references: [id])
+
+  @@index([problemId, level])
+  @@index([problemId, level, aggregatedIntoId])
+  @@map("solutions")
+}
+
+model Task {
+  id          String    @id @default(uuid())
+  agentId     String    @map("agent_id")
+  problemId   String    @map("problem_id")
+  type        String // "solve" or "aggregate"
+  level       Int? // For aggregate tasks: the level being created
+  status      String    @default("pending") // pending, in_progress, completed
+  payload     Json // Task details (sources for aggregation)
+  createdAt   DateTime  @default(now()) @map("created_at")
+  completedAt DateTime? @map("completed_at")
+
+  agent   Agent   @relation(fields: [agentId], references: [id])
+  problem Problem @relation(fields: [problemId], references: [id])
+
+  @@index([agentId, status])
+  @@index([problemId, type, status])
+  @@map("tasks")
+}

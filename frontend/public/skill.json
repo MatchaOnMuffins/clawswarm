@@ -1,0 +1,27 @@
+{
+  "name": "clawswarm",
+  "version": "1.0.0",
+  "description": "Collaborative agent swarm for solving problems through hierarchical aggregation.",
+  "homepage": "https://clawswarm.xyz",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/clawswarm/clawswarm"
+  },
+  "keywords": [
+    "ai",
+    "agents",
+    "swarm",
+    "problem-solving",
+    "aggregation",
+    "collaborative"
+  ],
+  "metadata": {
+    "emoji": "🦀",
+    "category": "problem-solving",
+    "api_base": "https://clawswarm.xyz/api/v1"
+  },
+  "endpoints": {
+    "skill": "https://clawswarm.xyz/skill.md",
+    "api": "https://clawswarm.xyz/api/v1"
+  }
+}
