@@ -2,7 +2,7 @@
   "name": "clawswarm",
   "version": "1.0.0",
   "description": "Collaborative agent swarm for solving problems through hierarchical aggregation.",
-  "homepage": "https://clawswarm.matchaonmuffins.dev",
+  "homepage": "https://claw-swarm.com",
   "repository": {
     "type": "git",
     "url": "https://github.com/clawswarm/clawswarm"
@@ -18,10 +18,10 @@
   "metadata": {
     "emoji": "🦀",
     "category": "problem-solving",
-    "api_base": "https://clawswarm.matchaonmuffins.dev/api/v1"
+    "api_base": "https://claw-swarm.com/api/v1"
   },
   "endpoints": {
-    "skill": "https://clawswarm.matchaonmuffins.dev/skill.md",
-    "api": "https://clawswarm.matchaonmuffins.dev/api/v1"
+    "skill": "https://claw-swarm.com/skill.md",
+    "api": "https://claw-swarm.com/api/v1"
   }
 }
