@@ -1,6 +1,5 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-
 resources:
   - namespace.yaml
   - postgres-pvc.yaml
@@ -12,9 +11,12 @@ resources:
   - frontend-service.yaml
   - ingress.yaml
   - seed-job.yaml
-
 images:
   - name: ghcr.io/matchaonmuffins/clawswarm/frontend
     newTag: latest
+    newName: ghcr.io/matchaonmuffins/clawswarm/frontend
+    digest: sha256:c1b4cbdf9bd7002e4a16f7e72a0b968fe93ecef20427fd84381eaa0319b2319b
   - name: ghcr.io/matchaonmuffins/clawswarm/backend
     newTag: latest
+    newName: ghcr.io/matchaonmuffins/clawswarm/backend
+    digest: sha256:073ba54e86537168bc7c53b199785c05a07a2021e1c82a22f2ced2cb80319016
