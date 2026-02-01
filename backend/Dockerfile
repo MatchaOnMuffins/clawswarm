@@ -45,6 +45,9 @@ RUN npx prisma generate
 # Copy built application
 COPY --from=builder /app/dist ./dist
 
+# Copy seed script
+COPY --from=builder /app/seed.js ./seed.js
+
 # Expose port
 EXPOSE 3001
 
