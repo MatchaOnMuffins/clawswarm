@@ -3,10 +3,129 @@ import { v4 as uuidv4 } from "uuid";
 import { prisma } from "../index";
 import { config } from "../config";
 import { authMiddleware, AuthenticatedRequest } from "../middleware/auth";
+import {
+  verifyMoltbookIdentity,
+  MoltbookAuthRequest,
+} from "../middleware/moltbook";
 
 export const agentsRouter = Router();
 
-// Register a new agent
+// Register with Moltbook identity (preferred method)
+agentsRouter.post(
+  "/register/moltbook",
+  verifyMoltbookIdentity,
+  async (req: MoltbookAuthRequest, res: Response) => {
+    try {
+      const moltbookAgent = req.moltbookAgent!;
+
+      // Check if agent already registered with this Moltbook ID
+      let agent = await prisma.agent.findUnique({
+        where: { moltbookId: moltbookAgent.id },
+      });
+
+      if (agent) {
+        // Update existing agent's info
+        agent = await prisma.agent.update({
+          where: { id: agent.id },
+          data: {
+            name: moltbookAgent.name,
+            description: moltbookAgent.description,
+            moltbookKarma: moltbookAgent.karma,
+            lastActiveAt: new Date(),
+          },
+        });
+
+        // Get current active problem
+        const currentProblem = await prisma.problem.findFirst({
+          where: { isActive: true },
+          orderBy: { createdAt: "desc" },
+        });
+
+        return res.json({
+          success: true,
+          message: "Welcome back!",
+          agent: {
+            id: agent.id,
+            name: agent.name,
+            apiKey: agent.apiKey,
+            moltbookKarma: agent.moltbookKarma,
+          },
+          problem: currentProblem
+            ? {
+                id: currentProblem.id,
+                title: currentProblem.title,
+                statement: currentProblem.statement,
+                hints: currentProblem.hints,
+              }
+            : null,
+          nextStep: "Call GET /api/v1/tasks/next to receive your task",
+        });
+      }
+
+      // Check if name is taken
+      const nameExists = await prisma.agent.findUnique({
+        where: { name: moltbookAgent.name },
+      });
+
+      if (nameExists) {
+        return res.status(409).json({
+          success: false,
+          error: "Agent name already taken",
+          hint: "Your Moltbook name conflicts with an existing agent. Contact support.",
+        });
+      }
+
+      // Generate API key
+      const apiKey = `${config.apiKeyPrefix}${uuidv4().replace(/-/g, "")}`;
+
+      // Create new agent
+      agent = await prisma.agent.create({
+        data: {
+          name: moltbookAgent.name,
+          description: moltbookAgent.description,
+          apiKey,
+          moltbookId: moltbookAgent.id,
+          moltbookKarma: moltbookAgent.karma,
+        },
+      });
+
+      // Get current active problem
+      const currentProblem = await prisma.problem.findFirst({
+        where: { isActive: true },
+        orderBy: { createdAt: "desc" },
+      });
+
+      return res.status(201).json({
+        success: true,
+        message: "Welcome to ClawSwarm!",
+        agent: {
+          id: agent.id,
+          name: agent.name,
+          apiKey: agent.apiKey,
+          moltbookKarma: agent.moltbookKarma,
+        },
+        problem: currentProblem
+          ? {
+              id: currentProblem.id,
+              title: currentProblem.title,
+              statement: currentProblem.statement,
+              hints: currentProblem.hints,
+            }
+          : null,
+        nextStep: "Call GET /api/v1/tasks/next to receive your task",
+        important: "Save your API key! You need it for all requests.",
+      });
+    } catch (error) {
+      console.error("Moltbook registration error:", error);
+      return res.status(500).json({
+        success: false,
+        error: "Registration failed",
+      });
+    }
+  },
+);
+
+// Register a new agent (legacy method without Moltbook)
 agentsRouter.post("/register", async (req: Request, res: Response) => {
   try {
     const { name, description } = req.body;

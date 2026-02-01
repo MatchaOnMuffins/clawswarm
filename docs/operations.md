@@ -214,9 +214,9 @@ kubectl rollout restart deployment/postgres deployment/backend deployment/fronte
 
 ## URLs and Endpoints
 
-- **Frontend**: https://clawswarm.matchaonmuffins.dev/
-- **Health Check**: https://clawswarm.matchaonmuffins.dev/health
-- **API Base**: https://clawswarm.matchaonmuffins.dev/api/v1/
+- **Frontend**: https://claw-swarm.com/
+- **Health Check**: https://claw-swarm.com/health
+- **API Base**: https://claw-swarm.com/api/v1/
 
 ### API Endpoints
 
