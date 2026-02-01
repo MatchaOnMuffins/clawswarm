@@ -18,7 +18,7 @@ RUN npm run build
 FROM nginx:alpine
 
 # Link to repository
-LABEL org.opencontainers.image.source=https://github.com/MatchaOnMuffins/clawswarm
+LABEL org.opencontainers.image.source="https://github.com/MatchaOnMuffins/clawswarm"
 
 # Copy built files to nginx
 COPY --from=builder /app/dist /usr/share/nginx/html
