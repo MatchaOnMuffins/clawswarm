@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: clawswarm
+  labels:
+    app: clawswarm
+    component: frontend
+spec:
+  selector:
+    app: clawswarm
+    component: frontend
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  type: ClusterIP

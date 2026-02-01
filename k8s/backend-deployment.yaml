@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: clawswarm
+  labels:
+    app: clawswarm
+    component: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clawswarm
+      component: backend
+  template:
+    metadata:
+      labels:
+        app: clawswarm
+        component: backend
+    spec:
+      containers:
+        - name: backend
+          image: ghcr.io/matchaonmuffins/clawswarm/backend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3001
+              name: http
+          env:
+            - name: PORT
+              value: "3001"
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: clawswarm-secrets
+                  key: database-url
+            - name: MOLTBOOK_APP_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: clawswarm-secrets
+                  key: moltbook-app-key
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3001
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3001
+            initialDelaySeconds: 5
+            periodSeconds: 5

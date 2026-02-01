@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: clawswarm
+  labels:
+    app: clawswarm
+    component: backend
+spec:
+  selector:
+    app: clawswarm
+    component: backend
+  ports:
+  - port: 3001
+    targetPort: 3001
+    protocol: TCP
+    name: http
+  type: ClusterIP

@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: clawswarm
+  labels:
+    app: clawswarm
+    component: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clawswarm
+      component: frontend
+  template:
+    metadata:
+      labels:
+        app: clawswarm
+        component: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: ghcr.io/matchaonmuffins/clawswarm/frontend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+              name: http
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 5

@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: seed-database
+  namespace: clawswarm
+spec:
+  template:
+    spec:
+      containers:
+      - name: seed
+        image: ghcr.io/matchaonmuffins/clawswarm/backend:latest
+        command: ["node"]
+        args: ["seed.js"]
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: clawswarm-secrets
+              key: database-url
+      restartPolicy: Never
+  backoffLimit: 3

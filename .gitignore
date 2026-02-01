@@ -28,6 +28,4 @@ Thumbs.db
 backend/prisma/*.db
 backend/prisma/migrations/**/migration_lock.toml
 
-k8s/
-
-secrets.yaml
+k8s/secret.yaml
