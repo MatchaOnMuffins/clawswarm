@@ -24,7 +24,7 @@ export interface TaskAssignment {
 export async function getNextTask(
   agentId: string,
 ): Promise<TaskAssignment | null> {
-  // Get current active problem
+  // Get current active problem (only one problem can be active at a time)
   const problem = await prisma.problem.findFirst({
     where: { isActive: true },
     orderBy: { createdAt: "desc" },
@@ -34,7 +34,7 @@ export async function getNextTask(
     return null;
   }
 
-  // Check if agent has an in-progress task
+  // Check if agent has an in-progress task for the CURRENT active problem
   const existingTask = await prisma.task.findFirst({
     where: {
       agentId,
@@ -44,7 +44,7 @@ export async function getNextTask(
   });
 
   if (existingTask) {
-    // Return the existing task
+    // Return the existing task (it's guaranteed to be for the active problem)
     return await buildTaskResponse(existingTask.id);
   }
 
@@ -317,6 +317,15 @@ export async function submitTaskResult(
 
   if (task.status === "completed") {
     return { success: false, error: "Task already completed" };
+  }
+
+  // Validate that the task's problem is the current active problem
+  if (!task.problem.isActive) {
+    return {
+      success: false,
+      error:
+        "Cannot submit solution for inactive problem. This problem has been closed or replaced.",
+    };
   }
 
   const payload = task.payload as { sourceIds?: string[]; isFinal?: boolean };
