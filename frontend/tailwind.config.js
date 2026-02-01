@@ -12,12 +12,15 @@ export default {
       },
       fontFamily: {
         sans: ['Outfit', 'system-ui', 'sans-serif'],
+        display: ['Syne', 'system-ui', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
       },
       animation: {
         'slide-up': 'slideUp 0.5s ease-out forwards',
         'fade-in': 'fadeIn 0.4s ease-out forwards',
         'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+        'float': 'float 6s ease-in-out infinite',
+        'draw': 'drawLine 2s ease-out forwards',
       },
       keyframes: {
         slideUp: {
@@ -37,6 +40,15 @@ export default {
             opacity: 0.8,
             boxShadow: '0 0 30px rgba(34, 211, 238, 0.6)',
           },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+          '25%': { transform: 'translateY(-8px) rotate(1deg)' },
+          '75%': { transform: 'translateY(4px) rotate(-1deg)' },
+        },
+        drawLine: {
+          from: { strokeDashoffset: 1000 },
+          to: { strokeDashoffset: 0 },
         },
       },
       backdropBlur: {

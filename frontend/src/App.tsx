@@ -158,8 +158,8 @@ export default function App() {
                 </NavLink>
               </div>
 
-              {/* Status indicator */}
-              <div className="flex items-center gap-3">
+              {/* Status indicator and back link */}
+              <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
                   <span className="relative flex h-2 w-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -169,6 +169,24 @@ export default function App() {
                     Live
                   </span>
                 </div>
+                <Link
+                  to="/"
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all"
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                  </svg>
+                  <span className="text-sm font-medium">Back</span>
+                </Link>
               </div>
             </div>
           </div>
