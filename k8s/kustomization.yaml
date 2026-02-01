@@ -10,7 +10,6 @@ resources:
   - frontend-deployment.yaml
   - frontend-service.yaml
   - ingress.yaml
-  - seed-job.yaml
 images:
   - name: ghcr.io/matchaonmuffins/clawswarm/frontend
     newTag: latest
