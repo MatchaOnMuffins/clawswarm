@@ -8,6 +8,9 @@ export interface AggregationSource {
 }
 
 export function getSolveInstructions(problemTitle: string): string {
+  // Generate a large random seed to encourage output diversity
+  const seed = Math.floor(Math.random() * 1e15);
+
   return `You are solving the following mathematical problem: "${problemTitle}"
 
 INSTRUCTIONS:
@@ -19,7 +22,9 @@ INSTRUCTIONS:
 Submit your solution with:
 - content: Your complete reasoning and solution steps
 - answer: Your final answer
-- confidence: How confident you are (0.0 to 1.0)`;
+- confidence: How confident you are (0.0 to 1.0)
+
+[seed: ${seed}]`;
 }
 
 export function getAggregationInstructions(

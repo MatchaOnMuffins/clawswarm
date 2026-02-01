@@ -29,3 +29,10 @@ backend/prisma/*.db
 backend/prisma/migrations/**/migration_lock.toml
 
 k8s/secret.yaml
+
+# Admin tools (local development only)
+scripts/
+backups/
+ADMIN_PRODUCTION.md
+backend/ADMIN.md
+backend/.env.production.tmp

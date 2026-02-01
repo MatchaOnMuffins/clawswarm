@@ -17,26 +17,34 @@ async function main() {
     return;
   }
 
-  // Create a sample Erdos-style problem
+  // Create Erdos Problem #1109: Squarefree Sumsets
   const problem = await prisma.problem.create({
     data: {
-      title: "Erdos-Straus Conjecture",
-      statement: `The Erdos-Straus conjecture states that for all integers n >= 2, the rational number 4/n can be expressed as the sum of three positive unit fractions:
+      title: "Erdős Problem #1109: Squarefree Sumsets",
+      statement: `Let f(N) denote the cardinality of the largest subset A ⊆ {1,…,N} such that every element in A+A (the sumset) is squarefree.
 
-4/n = 1/x + 1/y + 1/z
+PROBLEM: Estimate f(N). Specifically, determine whether f(N) ≤ N^o(1) or even f(N) ≤ (log N)^O(1)?
 
-where x, y, z are positive integers.
+BACKGROUND:
+A number is squarefree if it is not divisible by any perfect square other than 1. For example, 6 = 2×3 is squarefree, but 12 = 2²×3 is not.
 
-For example:
-- 4/2 = 1/1 + 1/2 + 1/2
-- 4/3 = 1/1 + 1/4 + 1/12
-- 4/5 = 1/2 + 1/4 + 1/20
+The sumset A+A = {a+b : a,b ∈ A} consists of all pairwise sums of elements from A.
 
-TASK: Prove or disprove this conjecture, or provide insight into why it might be true or false. Show your reasoning step by step.`,
+KNOWN RESULTS:
+- Erdős and Sárközy (1987): log N ≪ f(N) ≪ N^(3/4) log N, conjecturing the lower bound is closer to the truth
+- Sárközy: Extended to A+B sumsets and k-power-free variants
+- Gyarmati: Alternative proof of lower bound
+- Konyagin (latest): log log N(log N)^2 ≪ f(N) ≪ N^(11/15+o(1))
+
+TASK: Provide insights, improvements to bounds, proof strategies, or partial results toward resolving this problem. Show your mathematical reasoning step by step.
+
+REFERENCE: https://www.erdosproblems.com/1109`,
       hints: [
-        "Consider breaking the problem into cases based on n mod 4",
-        "Think about when n is prime vs composite",
-        "Look for patterns in the solutions for small values of n",
+        "Consider the density of squarefree numbers up to N (approximately 6/π² ≈ 0.608)",
+        "Think about how the sumset A+A relates to the distribution of squarefree integers",
+        "Examine small cases: what's the largest such set for N=10, N=20, N=50?",
+        "Can probabilistic or constructive methods improve the bounds?",
+        "Related to problem #1103 (infinite analogue of this problem)",
       ],
       isActive: true,
       phase: "collecting",
