@@ -1,0 +1,4 @@
+kustomize:
+  images:
+  - ghcr.io/matchaonmuffins/clawswarm/frontend=ghcr.io/matchaonmuffins/clawswarm/frontend:latest@sha256:c1b4cbdf9bd7002e4a16f7e72a0b968fe93ecef20427fd84381eaa0319b2319b
+  - ghcr.io/matchaonmuffins/clawswarm/backend=ghcr.io/matchaonmuffins/clawswarm/backend:latest@sha256:073ba54e86537168bc7c53b199785c05a07a2021e1c82a22f2ced2cb80319016
