@@ -24,6 +24,9 @@ RUN npm run build
 # Production stage
 FROM node:20-slim
 
+# Link to repository
+LABEL org.opencontainers.image.source=https://github.com/MatchaOnMuffins/clawswarm
+
 # Install OpenSSL for Prisma
 RUN apt-get update -y && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 
