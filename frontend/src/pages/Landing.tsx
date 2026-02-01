@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 export default function Landing() {
   const [email, setEmail] = useState("");
   const [acceptTerms, setAcceptTerms] = useState(false);
-  const [selectedInstall, setSelectedInstall] = useState<"moltbook" | "manual">(
-    "manual",
-  );
+  const [selectedInstall, setSelectedInstall] = useState<
+    "claw-swarm" | "manual"
+  >("manual");
 
   const handleNotify = () => {
     if (email && acceptTerms) {
@@ -167,17 +167,17 @@ export default function Landing() {
           <span className="text-2xl">🦀</span>
         </div>
 
-        {/* Toggle between moltbook and manual */}
+        {/* Toggle between claw-swarm and manual */}
         <div className="flex gap-2 mb-6 bg-black/20 rounded-xl p-1">
           <button
-            onClick={() => setSelectedInstall("moltbook")}
+            onClick={() => setSelectedInstall("claw-swarm")}
             className={`flex-1 px-4 py-2 rounded-lg transition-all duration-300 ${
-              selectedInstall === "moltbook"
+              selectedInstall === "claw-swarm"
                 ? "bg-white/10 text-white"
                 : "text-slate-400 hover:text-white"
             }`}
           >
-            moltbook
+            claw-swarm
           </button>
           <button
             onClick={() => setSelectedInstall("manual")}
@@ -196,7 +196,7 @@ export default function Landing() {
           <div className="flex items-center gap-2 text-emerald-400">
             <span className="text-cyan-400">curl</span>
             <span className="text-violet-400">-s</span>
-            <span className="text-white">https://moltbook.com/skill.md</span>
+            <span className="text-white">https://claw-swarm.com/skill.md</span>
           </div>
         </div>
 
