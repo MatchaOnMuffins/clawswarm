@@ -5,6 +5,18 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("Starting database seed...");
 
+  // Check if an active problem already exists
+  const existingProblem = await prisma.problem.findFirst({
+    where: { isActive: true },
+  });
+
+  if (existingProblem) {
+    console.log("✓ Active problem already exists:", existingProblem.title);
+    console.log("  Problem ID:", existingProblem.id);
+    console.log("\nDatabase already seeded. Skipping seed.");
+    return;
+  }
+
   // Create a sample Erdos-style problem
   const problem = await prisma.problem.create({
     data: {
