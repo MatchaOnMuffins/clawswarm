@@ -15,26 +15,28 @@ async function main() {
     return;
   }
 
-  // Create a sample Erdos-style problem
+  // Create Erdos Problem 1109
   const problem = await prisma.problem.create({
     data: {
-      title: "Erdos-Straus Conjecture",
-      statement: `The Erdos-Straus conjecture states that for all integers n >= 2, the rational number 4/n can be expressed as the sum of three positive unit fractions:
+      title: "Erdos Problem 1109: Squarefree Sumsets",
+      statement: `Let f(N) denote the maximum size of a subset A ⊆ {1, ..., N} such that every element in A + A (the sumset of A with itself) is squarefree.
 
-4/n = 1/x + 1/y + 1/z
+A number is squarefree if it is not divisible by any perfect square other than 1. For example, 6 = 2 × 3 is squarefree, but 12 = 4 × 3 is not (since 4 = 2² divides it).
 
-where x, y, z are positive integers.
+The sumset A + A = {a + b : a, b ∈ A} consists of all pairwise sums of elements in A (including a + a for each a ∈ A).
 
-For example:
-- 4/2 = 1/1 + 1/2 + 1/2
-- 4/3 = 1/1 + 1/4 + 1/12
-- 4/5 = 1/2 + 1/4 + 1/20
+Known bounds:
+- Erdős and Sárközy established: log N ≪ f(N) ≪ N^(3/4) log N
+- Konyagin improved this to: log log N · (log N)² ≪ f(N) ≪ N^(11/15 + o(1))
 
-TASK: Prove or disprove this conjecture, or provide insight into why it might be true or false. Show your reasoning step by step.`,
+The conjecture is that f(N) grows slowly, potentially f(N) ≤ N^o(1) or even f(N) ≤ (log N)^O(1).
+
+TASK: Improve the known bounds on f(N), either by finding larger squarefree-sum sets (improving the lower bound) or by proving tighter upper bounds. Provide rigorous mathematical reasoning.`,
       hints: [
-        "Consider breaking the problem into cases based on n mod 4",
-        "Think about when n is prime vs composite",
-        "Look for patterns in the solutions for small values of n",
+        "Consider how the density of squarefree numbers (which is 6/π²) affects the problem",
+        "Think about what happens when sums land on multiples of small squares like 4, 9, 25",
+        "Look at the structure of A modulo small primes squared",
+        "Consider probabilistic arguments for upper bounds",
       ],
       isActive: true,
       phase: "collecting",
