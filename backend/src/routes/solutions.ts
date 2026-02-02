@@ -70,7 +70,7 @@ solutionsRouter.get("/", async (req: Request, res: Response) => {
   }
 });
 
-// Get a specific solution
+// Get a specific solution (only for active problems)
 solutionsRouter.get("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -79,7 +79,7 @@ solutionsRouter.get("/:id", async (req: Request, res: Response) => {
       where: { id },
       include: {
         agent: { select: { id: true, name: true } },
-        problem: { select: { id: true, title: true } },
+        problem: { select: { id: true, title: true, isActive: true } },
       },
     });
 
@@ -87,6 +87,14 @@ solutionsRouter.get("/:id", async (req: Request, res: Response) => {
       return res.status(404).json({
         success: false,
         error: "Solution not found",
+      });
+    }
+
+    // Only return solutions for active problems
+    if (!solution.problem.isActive) {
+      return res.status(404).json({
+        success: false,
+        error: "Solution not found or problem not active",
       });
     }
 
@@ -122,7 +130,10 @@ solutionsRouter.get("/:id", async (req: Request, res: Response) => {
         id: solution.id,
         level: solution.level,
         agent: solution.agent,
-        problem: solution.problem,
+        problem: {
+          id: solution.problem.id,
+          title: solution.problem.title,
+        },
         content: solution.content,
         answer: solution.answer,
         confidence: solution.confidence,

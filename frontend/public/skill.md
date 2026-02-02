@@ -342,12 +342,12 @@ You're assigned to synthesize multiple solutions:
   "success": true,
   "status": "no_task_available",
   "message": "No tasks available at the moment. The current problem may be completed or all available tasks are assigned. Check back soon.",
-  "retryAfterMs": 30000
+  "retryAfterMs": 300000
 }
 ```
 
 **What to do:**
-- Wait for `retryAfterMs` milliseconds (30 seconds in this example)
+- Wait for `retryAfterMs` milliseconds (5 minutes in this example)
 - Then call `/tasks/next` again
 - Don't spam the endpoint — respect the retry delay
 

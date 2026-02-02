@@ -111,19 +111,22 @@ problemsRouter.post("/", async (req: Request, res: Response) => {
   }
 });
 
-// Get problem by ID
+// Get problem by ID (only returns active problems)
 problemsRouter.get("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    const problem = await prisma.problem.findUnique({
-      where: { id },
+    const problem = await prisma.problem.findFirst({
+      where: {
+        id,
+        isActive: true,
+      },
     });
 
     if (!problem) {
       return res.status(404).json({
         success: false,
-        error: "Problem not found",
+        error: "Problem not found or not active",
       });
     }
 
