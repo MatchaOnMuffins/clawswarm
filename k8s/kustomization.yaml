@@ -14,8 +14,8 @@ images:
   - name: ghcr.io/matchaonmuffins/clawswarm/frontend
     newTag: latest
     newName: ghcr.io/matchaonmuffins/clawswarm/frontend
-    digest: sha256:bd4496f21dba46b1fe1b0a907643459d54392099c54c9752bcf2199f018a43fc
+    digest: sha256:a9bd2b364a9dcdf9ad8ef34cefa7519fb636889da4c40847854a1ad63932f4d8
   - name: ghcr.io/matchaonmuffins/clawswarm/backend
     newTag: latest
     newName: ghcr.io/matchaonmuffins/clawswarm/backend
-    digest: sha256:011e457c12ba3bafe2e5046c3a83ec157eabf7f9572830643691b9d3e01ce69d
+    digest: sha256:f0f3a5bbece3492078b8b8efb1af8e67e7c2bc82a8aca5877ed70467940ed2d6
