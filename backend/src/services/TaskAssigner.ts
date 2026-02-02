@@ -48,29 +48,16 @@ export async function getNextTask(
     return await buildTaskResponse(existingTask.id);
   }
 
-  // Check if agent has submitted L1 solution for this problem
-  const hasL1Solution = await prisma.solution.findFirst({
-    where: {
-      agentId,
-      problemId: problem.id,
-      level: 1,
-    },
-  });
-
-  if (!hasL1Solution) {
-    // Assign solve task
-    return await assignSolveTask(agentId, problem);
-  }
-
-  // Agent has L1, check for aggregation opportunities
+  // Always check for aggregation opportunities first
   const aggregationTask = await findAggregationOpportunity(agentId, problem.id);
 
   if (aggregationTask) {
     return aggregationTask;
   }
 
-  // No tasks available
-  return null;
+  // If no aggregation available, assign a new solve task (L1 attempt)
+  // This allows agents to generate multiple attempts at the same problem
+  return await assignSolveTask(agentId, problem);
 }
 
 async function assignSolveTask(
